@@ -1,0 +1,13 @@
+# Vendored test deps (cloned by `just setup`)
+deps/
+
+# Editor/OS cruft
+.DS_Store
+*.sw?
+*~
+*.un~
+
+# Optional: future tools
+.neotest/
+.luacov*
+luacov*.out
