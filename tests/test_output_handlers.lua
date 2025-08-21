@@ -89,29 +89,35 @@ end
 set['uv.add() uses notify handler with arguments'] = function()
   local uv = require('uv')
 
-  with_command_stub({ success = true, command = 'uv add requests', output = 'Package added\n', exit_code = 0 }, function()
-    local result, ui_calls = with_ui_stub(function()
-      uv.add({ 'requests' }) -- Should use notify handler
-    end)
+  with_command_stub(
+    { success = true, command = 'uv add requests', output = 'Package added\n', exit_code = 0 },
+    function()
+      local result, ui_calls = with_ui_stub(function()
+        uv.add({ 'requests' }) -- Should use notify handler
+      end)
 
-    T.expect.equality(#ui_calls, 1)
-    T.expect.equality(ui_calls[1].method, 'notify')
-    T.expect.equality(ui_calls[1].result.output, 'Package added\n')
-  end)
+      T.expect.equality(#ui_calls, 1)
+      T.expect.equality(ui_calls[1].method, 'notify')
+      T.expect.equality(ui_calls[1].result.output, 'Package added\n')
+    end
+  )
 end
 
 set['uv.remove() uses float handler with arguments'] = function()
   local uv = require('uv')
 
-  with_command_stub({ success = true, command = 'uv remove requests', output = 'Package removed\n', exit_code = 0 }, function()
-    local result, ui_calls = with_ui_stub(function()
-      uv.remove({ 'requests' }) -- Should use float handler
-    end)
+  with_command_stub(
+    { success = true, command = 'uv remove requests', output = 'Package removed\n', exit_code = 0 },
+    function()
+      local result, ui_calls = with_ui_stub(function()
+        uv.remove({ 'requests' }) -- Should use float handler
+      end)
 
-    T.expect.equality(#ui_calls, 1)
-    T.expect.equality(ui_calls[1].method, 'float')
-    T.expect.equality(ui_calls[1].result.output, 'Package removed\n')
-  end)
+      T.expect.equality(#ui_calls, 1)
+      T.expect.equality(ui_calls[1].method, 'float')
+      T.expect.equality(ui_calls[1].result.output, 'Package removed\n')
+    end
+  )
 end
 
 return set

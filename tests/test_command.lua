@@ -98,7 +98,8 @@ set['build() realistic scenarios'] = function()
   T.expect.equality(result1, 'uv pip install numpy>=1.20 pandas<2.0 --upgrade')
 
   -- Test run with python script and arguments
-  local result2 = command.build('uv', 'run', { 'python', 'script.py', '--input', 'data.csv', '--output', 'results.json' })
+  local result2 =
+    command.build('uv', 'run', { 'python', 'script.py', '--input', 'data.csv', '--output', 'results.json' })
   T.expect.equality(result2, 'uv run python script.py --input data.csv --output results.json')
 
   -- Test add with development dependencies

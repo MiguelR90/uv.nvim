@@ -32,9 +32,9 @@ set['enhanced output handler functionality works (adhoc validation)'] = function
   local uv = require('uv')
 
   -- Test that different handler functions exist
-  T.expect.equality(type(uv.sync), 'function')  -- Uses notify handler
-  T.expect.equality(type(uv.tree), 'function')  -- Uses split handler  
-  T.expect.equality(type(uv.lock), 'function')  -- Uses float handler
+  T.expect.equality(type(uv.sync), 'function') -- Uses notify handler
+  T.expect.equality(type(uv.tree), 'function') -- Uses split handler
+  T.expect.equality(type(uv.lock), 'function') -- Uses float handler
 end
 
 set['UI primitives work independently (adhoc validation)'] = function()
@@ -92,8 +92,12 @@ set['module can be reloaded successfully'] = function()
   T.expect.equality(type(uv2.sync), 'function')
 
   -- Both should work
-  local ok1 = pcall(function() uv1.lock() end)
-  local ok2 = pcall(function() uv2.lock() end)
+  local ok1 = pcall(function()
+    uv1.lock()
+  end)
+  local ok2 = pcall(function()
+    uv2.lock()
+  end)
 
   T.expect.equality(ok1, true)
   T.expect.equality(ok2, true)
