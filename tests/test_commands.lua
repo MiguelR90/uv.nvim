@@ -1,5 +1,20 @@
 local T = require('mini.test')
 
+-- Utility to stub vim.notify and capture calls
+local function with_notify_capture(fn)
+  local calls = {}
+  local orig = vim.notify
+  vim.notify = function(msg, level, opts)
+    table.insert(calls, { msg = msg, level = level, opts = opts })
+  end
+  local ok, err = pcall(fn, calls)
+  vim.notify = orig
+  if not ok then
+    error(err)
+  end
+  return calls
+end
+
 local set = T.new_set()
 
 set['registers expected user commands'] = function()
@@ -21,23 +36,18 @@ set['registers expected user commands'] = function()
 end
 
 set['UvRunBuf on unnamed buffer notifies error and does not crash'] = function()
-  local calls = {}
-  local orig = vim.notify
-  vim.notify = function(msg, level, opts)
-    table.insert(calls, { msg = msg, level = level, opts = opts })
-  end
-
   -- Ensure commands are present
   vim.cmd('runtime plugin/uv.lua')
-  -- New empty buffer with no file path
-  vim.cmd('enew')
-  -- Should early-return with an error notify
-  vim.cmd('UvRunBuf')
 
-  vim.notify = orig
+  local calls = with_notify_capture(function()
+    -- New empty buffer with no file path
+    vim.cmd('enew')
+    -- Should early-return with an error notify
+    vim.cmd('UvRunBuf')
+  end)
 
-  assert(#calls >= 1)
-  assert(calls[1].msg:find('Buffer has no file path', 1, true))
+  assert(#calls >= 1, 'Expected at least one notify call')
+  assert(calls[1].msg:find('Buffer has no file path', 1, true), 'Expected error message about buffer file path')
   T.expect.equality(calls[1].level, vim.log.levels.ERROR)
 end
 

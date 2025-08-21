@@ -1,2 +1,2 @@
+-- Load the uv plugin
 require('uv')
-require('uv.commands')

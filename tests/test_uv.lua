@@ -9,7 +9,9 @@ local function with_notify_capture(fn)
   end
   local ok, err = pcall(fn, calls)
   vim.notify = orig
-  if not ok then error(err) end
+  if not ok then
+    error(err)
+  end
   return calls
 end
 
@@ -31,7 +33,10 @@ set['pip_install() errors on empty list'] = function()
     uv.pip_install({})
   end)
   assert(#calls >= 1, 'Expected at least one notify call')
-  assert(calls[1].msg:find('No packages provided to add', 1, true), 'Expected error message to mention missing packages to add')
+  assert(
+    calls[1].msg:find('No packages provided to add', 1, true),
+    'Expected error message to mention missing packages to add'
+  )
   T.expect.equality(calls[1].level, vim.log.levels.ERROR)
 end
 
@@ -41,7 +46,10 @@ set['add() errors on empty list'] = function()
     uv.add({})
   end)
   assert(#calls >= 1, 'Expected at least one notify call')
-  assert(calls[1].msg:find('No packages provided to add', 1, true), 'Expected error message to mention missing packages to add')
+  assert(
+    calls[1].msg:find('No packages provided to add', 1, true),
+    'Expected error message to mention missing packages to add'
+  )
   T.expect.equality(calls[1].level, vim.log.levels.ERROR)
 end
 
@@ -51,7 +59,10 @@ set['remove() errors on empty list'] = function()
     uv.remove({})
   end)
   assert(#calls >= 1, 'Expected at least one notify call')
-  assert(calls[1].msg:find('No packages provided to remove', 1, true), 'Expected error message to mention missing packages to remove')
+  assert(
+    calls[1].msg:find('No packages provided to remove', 1, true),
+    'Expected error message to mention missing packages to remove'
+  )
   T.expect.equality(calls[1].level, vim.log.levels.ERROR)
 end
 
