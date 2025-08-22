@@ -27,13 +27,13 @@ function M.run_buffer(buf)
   -- NOTE: Important to save the buffer before running it!
   vim.cmd('silent write')
   local result = Command.execute('uv', 'run', { 'python', buf })
-  UI.display_result(result, 'float')
+  UI.display(result, 'float')
 end
 
 ---Sync project deps
 function M.sync()
   local result = Command.execute('uv', 'sync', nil)
-  UI.display_result(result, 'notify')
+  UI.display(result, 'notify')
 end
 
 ---Pip install one or more packages to the project. Uses the uv pip interface
@@ -44,7 +44,7 @@ function M.pip_install(packages)
     return
   end
   local result = Command.execute('uv', 'pip', { 'install', table.concat(packages, ' ') })
-  UI.display_result(result, 'float')
+  UI.display(result, 'float')
 end
 
 ---Run an arbitrary command via `uv run ...`
@@ -55,14 +55,14 @@ function M.run(argv)
     return
   end
   local result = Command.execute('uv', 'run', argv)
-  UI.display_result(result, 'float')
+  UI.display(result, 'float')
 end
 
 ---Initialize a project via `uv init`
 ---@param argv? string[]
 function M.init(argv)
   local result = Command.execute('uv', 'init', argv)
-  UI.display_result(result, 'float')
+  UI.display(result, 'float')
 end
 
 ---Add one or more packages to the project
@@ -73,7 +73,7 @@ function M.add(packages)
     return
   end
   local result = Command.execute('uv', 'add', packages)
-  UI.display_result(result, 'notify')
+  UI.display(result, 'notify')
 end
 
 ---Remove one or more packages from the project
@@ -84,25 +84,25 @@ function M.remove(packages)
     return
   end
   local result = Command.execute('uv', 'remove', packages)
-  UI.display_result(result, 'float')
+  UI.display(result, 'float')
 end
 
 ---Show the dependency tree
 function M.tree()
   local result = Command.execute('uv', 'tree', nil)
-  UI.display_result(result, 'split')
+  UI.display(result, 'split')
 end
 
 ---Regenerate the lockfile
 function M.lock()
   local result = Command.execute('uv', 'lock', nil)
-  UI.display_result(result, 'float')
+  UI.display(result, 'float')
 end
 
 ---Create or show a virtual environment
 function M.venv()
   local result = Command.execute('uv', 'venv', nil)
-  UI.display_result(result, 'float')
+  UI.display(result, 'float')
 end
 
 -- Command Registration

@@ -49,7 +49,7 @@ set['UI.display_result() works with notify type'] = function()
   }
 
   local calls = with_notify_capture(function()
-    UI.display_result(result, 'notify')
+    UI.display(result, 'notify')
   end)
 
   T.expect.equality(#calls, 1)
@@ -68,7 +68,7 @@ set['UI.display_result() detects error level with notify type'] = function()
   }
 
   local calls = with_notify_capture(function()
-    UI.display_result(result, 'notify')
+    UI.display(result, 'notify')
   end)
 
   T.expect.equality(#calls, 1)
@@ -87,7 +87,7 @@ set['UI.display_result() handles empty output with notify type'] = function()
   }
 
   local calls = with_notify_capture(function()
-    UI.display_result(result, 'notify')
+    UI.display(result, 'notify')
   end)
 
   T.expect.equality(#calls, 1)
@@ -106,15 +106,15 @@ set['UI.display_result() defaults to float when no type provided'] = function()
 
   -- Mock the float creation to capture that it was called
   local float_called = false
-  local orig_display = UI.display_result
-  UI.display_result = function(r, ui_type)
+  local orig_display = UI.display
+  UI.display = function(r, ui_type)
     T.expect.equality(ui_type or 'float', 'float') -- Should default to float
     float_called = true
   end
 
-  UI.display_result(result) -- No ui_type provided
+  UI.display(result) -- No ui_type provided
 
-  UI.display_result = orig_display
+  UI.display = orig_display
   T.expect.equality(float_called, true)
 end
 
@@ -165,7 +165,7 @@ set['UI.display_result() works with split type'] = function()
       output = 'Line 1\nLine 2\nLine 3',
       exit_code = 0,
     }
-    UI.display_result(result, 'split')
+    UI.display(result, 'split')
 
     vim.split = orig_split
     vim.keymap.set = orig_set
@@ -227,7 +227,7 @@ set['UI.display_result() works with float type'] = function()
       output = 'Test\nOutput',
       exit_code = 0,
     }
-    UI.display_result(result, 'float')
+    UI.display(result, 'float')
 
     vim.keymap.set = orig_set
     vim.split = orig_split

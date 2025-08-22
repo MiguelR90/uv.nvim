@@ -13,7 +13,7 @@ end
 
 ---Show command result in a floating window
 ---@param result ExecuteResult Command execution result
-local function show_float(result)
+local function display_float(result)
   local buf = vim.api.nvim_create_buf(false, true)
 
   -- Format title with "Cmd" prefix for float windows
@@ -53,7 +53,7 @@ end
 
 ---Show command result in a horizontal split window
 ---@param result ExecuteResult Command execution result
-local function show_split(result)
+local function display_split(result)
   local buf = vim.api.nvim_create_buf(false, true)
 
   -- Format title with default "UV" prefix for split windows
@@ -84,7 +84,7 @@ end
 
 ---Show command result as a notification
 ---@param result ExecuteResult Command execution result
-local function show_notify(result)
+local function display_notify(result)
   -- Format title - for notifications, just use the command without prefix
   local title = result.command
 
@@ -99,18 +99,18 @@ end
 ---Display command result using specified UI type
 ---@param result ExecuteResult Command execution result
 ---@param ui_type UiType Display method ('float', 'notify', 'split')
-function M.display_result(result, ui_type)
+function M.display(result, ui_type)
   ui_type = ui_type or 'float'
 
   if ui_type == 'float' then
-    show_float(result)
+    display_float(result)
   elseif ui_type == 'notify' then
-    show_notify(result)
+    display_notify(result)
   elseif ui_type == 'split' then
-    show_split(result)
+    display_split(result)
   else
     -- Fallback to float for unknown types
-    show_float(result)
+    display_float(result)
   end
 end
 

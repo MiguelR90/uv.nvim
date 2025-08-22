@@ -25,15 +25,15 @@ local function with_ui_stub(fn)
   local UI = require('uv.ui')
   local calls = {}
 
-  local orig_display_result = UI.display_result
+  local orig_display_result = UI.display
 
-  UI.display_result = function(result, ui_type)
+  UI.display = function(result, ui_type)
     table.insert(calls, { method = ui_type, result = result })
   end
 
   local ok, result = pcall(fn, calls)
 
-  UI.display_result = orig_display_result
+  UI.display = orig_display_result
 
   if not ok then
     error(result)

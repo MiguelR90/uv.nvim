@@ -46,7 +46,7 @@ set['UI primitives work independently (adhoc validation)'] = function()
   -- but we can verify the function exists and doesn't crash with valid input
   local result = { success = true, command = 'uv test', output = 'Test message', exit_code = 0 }
   local ok, err = pcall(function()
-    UI.display_result(result, 'notify')
+    UI.display(result, 'notify')
   end)
 
   T.expect.equality(ok, true, 'UI.display_result should not crash: ' .. tostring(err))
@@ -108,7 +108,7 @@ set['hybrid approach maintains proper separation'] = function()
   local UI = require('uv.ui')
 
   -- UI module should have unified display function
-  T.expect.equality(type(UI.display_result), 'function')
+  T.expect.equality(type(UI.display), 'function')
 
   -- UI module should NOT have business logic functions
   T.expect.equality(UI.sync, nil)
@@ -197,7 +197,7 @@ set['reproduces exact adhoc validation commands'] = function()
   local UI = require('uv.ui')
   local result = { success = true, command = 'uv test', output = 'Test message', exit_code = 0 }
   local ok, err = pcall(function()
-    UI.display_result(result, 'notify')
+    UI.display(result, 'notify')
   end)
   T.expect.equality(ok, true, 'UI.display_result should work: ' .. tostring(err))
 end
